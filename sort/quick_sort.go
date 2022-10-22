@@ -6,18 +6,21 @@ func QuickSort[T any](a []T, left int, right int, cmp func(a, b T) bool) {
 		return
 	}
 
-	for left < right {
+	if left < right {
 		pivot := a[right]
 
 		i := left
-		for j := left + 1; j <= right; j++ {
+		for j := left; j < right; j++ {
 			if cmp(pivot, a[j]) {
-				a[i], a[j] = a[j], a[i]
+				a[j], a[i] = a[i], a[j]
 				i++
 			}
 		}
 
-		a[right], a[i] = a[i], pivot
+		a[i], a[right] = pivot, a[i]
+
+		QuickSort[T](a, left, i-1, cmp)
+		QuickSort[T](a, i+1, right, cmp)
 	}
 }
 
